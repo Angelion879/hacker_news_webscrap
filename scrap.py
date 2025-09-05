@@ -1,7 +1,13 @@
+import os
+import subprocess
 import requests
 from bs4 import BeautifulSoup as bs
-import subprocess
 from keys import channel
+
+try:
+    CHAN = os.environ["SECRET_CHANNEL"]
+except KeyError:
+    CHAN = channel
 
 res = requests.get('https://news.ycombinator.com/news')
 soup = bs(res.text, 'html.parser')
@@ -29,4 +35,4 @@ news_list = news_cleanup(titles, votes)
 
 text_message = "\n\n".join(str("\n - ".join(str(j) for j in i)) for i in news_list)
 
-sender = subprocess.run(f'curl -d "{text_message}" {channel}')
+sender = subprocess.run(f'curl -d "{text_message}" {CHAN}')
