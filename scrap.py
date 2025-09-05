@@ -2,11 +2,11 @@ import os
 import subprocess
 import requests
 from bs4 import BeautifulSoup as bs
-from keys import channel
 
 try:
     CHAN = os.environ["SECRET_CHANNEL"]
 except KeyError:
+    from keys import channel
     CHAN = channel
 
 res = requests.get('https://news.ycombinator.com/news')
