@@ -3,6 +3,13 @@ name: run script
 on:
   schedule:
     - cron: '20 22 * * 5' # Everyday at 7pm Brzil time
+  workflow_call:
+    inputs:
+      username:
+        description: 'A username passed from the caller workflow'
+        default: 'aaa'
+        required: false
+        type: string
 
 jobs:
   build:
