@@ -1,5 +1,4 @@
 import os
-import subprocess
 import requests
 from bs4 import BeautifulSoup as bs
 
@@ -35,4 +34,9 @@ news_list = news_cleanup(titles, votes)
 
 text_message = "\n\n".join(str("\n - ".join(str(j) for j in i)) for i in news_list)
 
-sender = subprocess.Popen(f'curl -d "{text_message}" {CHAN}')
+requests.post(f"https://{CHAN}",
+    data=f"{text_message}",
+    headers={
+        "Title": "Hacker News Update",
+        "Tags": "computer",
+    })
