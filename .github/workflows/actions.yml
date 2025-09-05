@@ -2,7 +2,7 @@ name: run script
 
 on:
   schedule:
-    - cron: '30 23 * * *' # Everyday at 7pm Brzil time
+    - cron: '5 23 * * *' # Everyday at 7pm Brzil time
   push:
     branches:
       - main
@@ -11,6 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner
 
       - name: setup python
         uses: actions/setup-python@v4
