@@ -2,7 +2,7 @@ name: run script
 
 on:
   schedule:
-    - cron: '20 22 * * 5' # Everyday at 7pm Brzil time
+    - cron: '30 23 * * *' # Everyday at 7pm Brzil time
   push:
     branches:
       - main
@@ -19,7 +19,6 @@ jobs:
           
       - name: install python packages
         run: |
-          cd /
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           
