@@ -35,4 +35,4 @@ news_list = news_cleanup(titles, votes)
 
 text_message = "\n\n".join(str("\n - ".join(str(j) for j in i)) for i in news_list)
 
-sender = subprocess.run(f'curl -d "{text_message}" {CHAN}')
+sender = subprocess.Popen(f'curl -d "{text_message}" {CHAN}')
