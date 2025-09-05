@@ -6,12 +6,6 @@ from keys import channel
 res = requests.get('https://news.ycombinator.com/news')
 soup = bs(res.text, 'html.parser')
 
-# print(soup.select('.titleline')[0].get_text())
-# print(soup.select('.titleline')[0].select('a')[0].get('href'))
-# print(soup.select('.score')[0].get_text())
-
-# BzYUG0zECQ43N6A9
-
 titles = soup.select('.titleline')
 votes = soup.select('.score')
 
