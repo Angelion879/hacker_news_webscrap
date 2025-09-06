@@ -2,7 +2,7 @@ name: run script
 
 on:
   schedule:
-    - cron: '0 22 * * *' # Everyday at 7pm Brzil time
+    - cron: '15 * * * *' # Everyday at 7pm Brzil time
 
 jobs:
   build:
