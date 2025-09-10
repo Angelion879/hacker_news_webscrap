@@ -22,9 +22,7 @@ def create_list_of_votes(soup_obj):
 
     return votes
 
-def create_relevant_news_list(soup_obj):
-    vote_list = create_list_of_votes(soup_obj)
-    news_list = create_list_of_titles_and_links(soup_obj)
+def create_relevant_news_list(vote_list, news_list):
     news = []
 
     for i, item in enumerate(vote_list):
@@ -34,7 +32,10 @@ def create_relevant_news_list(soup_obj):
     return news
 
 def create_text_message(soup_obj):
-    news_list = create_relevant_news_list(soup_obj)
+    votes = create_list_of_votes(soup_obj)
+    news = create_list_of_titles_and_links(soup_obj)
+    news_list = create_relevant_news_list(votes, news)
+
     text_message = "\n\n".join(str("\n - ".join(str(j) for j in i)) for i in news_list)
 
     return text_message
