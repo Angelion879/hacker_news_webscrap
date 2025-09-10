@@ -1,42 +1,49 @@
-import os
 import requests
 from bs4 import BeautifulSoup as bs
 
-try:
-    CHAN = os.environ["SECRET_CHANNEL"]
-except KeyError:
-    from keys import channel
-    CHAN = channel
+def create_list_of_titles_and_links(soup_obj):
+    title_content = soup_obj.select('.titleline')
+    titles = []
 
-res = requests.get('https://news.ycombinator.com/news')
-soup = bs(res.text, 'html.parser')
+    for i,item in enumerate(title_content):
+        text_title = item.get_text()
+        href_link = item.select('a')[0].get('href', None)
+        titles.append([text_title, href_link])
 
-titles = soup.select('.titleline')
-votes = soup.select('.score')
+    return titles
 
-def news_cleanup(t_list, v_list):
+def create_list_of_votes(soup_obj):
+    vote_content = soup_obj.select('.score')
+    votes = []
+
+    for i,item in enumerate(vote_content):
+        vote_count = item.get_text().split(' ')[0]
+        votes.append(vote_count)
+
+    return votes
+
+def create_relevant_news_list(soup_obj):
+    vote_list = create_list_of_votes(soup_obj)
+    news_list = create_list_of_titles_and_links(soup_obj)
     news = []
-    try:
-        for i in range(50):
 
-            s = v_list[i].get_text().split(' ')
-            n = t_list[i].get_text()
-            l = t_list[i].select('a')[0].get('href', None)
-
-            if int(s[0]) >= 200:
-                news.append([n,l])
-    except IndexError:
-        print("Done!")
+    for i, item in enumerate(vote_list):
+        if int(item) >= 200:
+            news.append(news_list[i])
 
     return news
 
-news_list = news_cleanup(titles, votes)
+def create_text_message(soup_obj):
+    news_list = create_relevant_news_list(soup_obj)
+    text_message = "\n\n".join(str("\n - ".join(str(j) for j in i)) for i in news_list)
 
-text_message = "\n\n".join(str("\n - ".join(str(j) for j in i)) for i in news_list)
+    return text_message
 
-requests.post(f"https://{CHAN}",
-    data=f"{text_message}",
-    headers={
-        "Title": "Hacker News Update",
-        "Tags": "computer",
-    })
+
+if __name__ == '__main__':
+    res = requests.get('https://news.ycombinator.com/news')
+    soup = bs(res.text, 'html.parser')
+
+    txt = create_text_message(soup)
+
+    print(txt)
