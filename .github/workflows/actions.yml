@@ -22,7 +22,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           
-      - name: execute py script # run scrap.py
+      - name: execute py script # run main.py
         env:
           SECRET_CHANNEL: ${{ secrets.SECRET_CHANNEL }}
-        run: python scrap.py
+        run: python main.py
