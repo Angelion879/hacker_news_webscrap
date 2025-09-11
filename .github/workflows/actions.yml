@@ -1,17 +1,18 @@
 name: run script
 
 on:
+  push:
   schedule:
     - cron: '5 22 * * *' # Everyday at 7:05pm Brzil time / 10:05pm UTC
 
 jobs:
-  build:
+  set-up:
     runs-on: ubuntu-latest
-    steps:
 
+    steps: 
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content to github runner
-
+  
       - name: setup python
         uses: actions/setup-python@v4
         with:
@@ -21,8 +22,21 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: run tests
+        run: |
+          cd tests
+          python -m unittest test_scrap.py
+
+  build:
+    runs-on: ubuntu-latest
+    steps:          
       - name: execute py script # run main.py
         env:
           SECRET_CHANNEL: ${{ secrets.SECRET_CHANNEL }}
-        run: python main.py
+        run: |
+          cd src
+          python main.py
