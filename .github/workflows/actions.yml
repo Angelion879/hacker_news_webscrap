@@ -25,6 +25,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    needs: set-up
     steps:
       - name: run tests
         run: |
@@ -33,10 +34,12 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    needs: [set-up, test]
     steps:          
       - name: execute py script # run main.py
         env:
           SECRET_CHANNEL: ${{ secrets.SECRET_CHANNEL }}
         run: |
+          cd ..
           cd src
           python main.py
