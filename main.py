@@ -1,8 +1,8 @@
 """main file for the hacker news web-scrapper"""
 import os
 import requests
-import scrap as s
 from bs4 import BeautifulSoup as bs
+import scrap as s
 
 def send_ntfy_message(message):
     requests.post(f"https://{CHAN}",
