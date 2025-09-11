@@ -7,7 +7,7 @@ def create_list_of_titles_and_links(soup_obj):
     titles = []
 
     for i,item in enumerate(title_content):
-        text_title = item.get_text()
+        text_title = item.get_text().replace('\n','').replace('\t','')
         href_link = item.select('a')[0].get('href', None)
         titles.append([text_title, href_link])
 
