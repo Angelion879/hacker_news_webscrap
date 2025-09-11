@@ -1,3 +1,4 @@
+"""this module contains the web-scrapping functions for the hacker news website"""
 import requests
 from bs4 import BeautifulSoup as bs
 
@@ -45,6 +46,6 @@ if __name__ == '__main__':
     res = requests.get('https://news.ycombinator.com/news')
     soup = bs(res.text, 'html.parser')
 
-    txt = create_text_message(soup)
+    TXT = create_text_message(soup)
 
-    print(txt)
+    print(TXT)

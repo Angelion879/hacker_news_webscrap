@@ -1,3 +1,4 @@
+"""main file for the hacker news web-scrapper"""
 import os
 import requests
 import scrap as s
