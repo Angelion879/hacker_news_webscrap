@@ -9,7 +9,7 @@ from src import scrap
 class TestHackerNewsScrapper(unittest.TestCase):
     """Tests regarding the scrap.py functions"""
 
-    with open('page_mock.html') as test_html:
+    with open('page_mock.html', encoding='utf-8') as test_html:
         soap = bs(test_html, 'html.parser')
 
     def test_title_and_link_list_creation(self):
@@ -21,9 +21,16 @@ class TestHackerNewsScrapper(unittest.TestCase):
         self.assertEqual(test_title_list, expected)
 
     def test_vote_list_creation(self):
-        test_title_list = scrap.create_list_of_votes(self.soap)
+        test_vote_list = scrap.create_list_of_votes(self.soap)
         expected = ['244',
                     '120',
                     '301']
 
-        self.assertEqual(test_title_list, expected)
+        self.assertEqual(test_vote_list, expected)
+
+    def test_relevant_news_list_creation(self):
+        test_news_list = scrap.create_relevant_news_list(self.soap)
+        expected = [['This is a test title', 'https://example.com'],
+                    ['Guess what? Test titles!', 'https://example3.com']]
+
+        self.assertEqual(test_news_list, expected)
