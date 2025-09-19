@@ -1,8 +1,7 @@
 """this module contains the web-scrapping functions for the hacker news website"""
-import requests
-from bs4 import BeautifulSoup as bs
 
 def create_list_of_titles_and_links(soup_obj):
+    '''creates a list with the titles of the news and the links to the related pages'''
     title_content = soup_obj.select('.titleline')
     titles = []
 
@@ -14,6 +13,7 @@ def create_list_of_titles_and_links(soup_obj):
     return titles
 
 def create_list_of_votes(soup_obj):
+    '''creates a list with the votes/scores of each topic'''
     vote_content = soup_obj.select('.score')
     votes = []
 
@@ -23,7 +23,10 @@ def create_list_of_votes(soup_obj):
 
     return votes
 
-def create_relevant_news_list(vote_list, news_list):
+def create_relevant_news_list(soup_obj):
+    '''builds a list with only the relevant news, the ones with a score of, at least, 200'''
+    vote_list = create_list_of_votes(soup_obj)
+    news_list = create_list_of_titles_and_links(soup_obj)
     news = []
 
     for i, item in enumerate(vote_list):
@@ -32,20 +35,5 @@ def create_relevant_news_list(vote_list, news_list):
 
     return news
 
-def create_text_message(soup_obj):
-    votes = create_list_of_votes(soup_obj)
-    news = create_list_of_titles_and_links(soup_obj)
-    news_list = create_relevant_news_list(votes, news)
-
-    text_message = "\n\n".join(str("\n - ".join(str(j) for j in i)) for i in news_list)
-
-    return text_message
-
-
 if __name__ == '__main__':
-    res = requests.get('https://news.ycombinator.com/news')
-    soup = bs(res.text, 'html.parser')
-
-    TXT = create_text_message(soup)
-
-    print(TXT)
+    pass
